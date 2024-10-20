@@ -8,23 +8,21 @@
 class FireAndForget
 {
 public:
-    // اجرای تسک با استفاده از OpenMP
     template <typename Func>
     FireAndForget &operator>>(Func &&func)
     {
-#pragma omp parallel
-#pragma omp single
+        #pragma omp parallel
+        #pragma omp single
         {
-#pragma omp task
+            #pragma omp task
             func();
         }
         return *this;
     }
 
-    // انتظار برای تمام تسک‌ها
     void wait()
     {
-#pragma omp taskwait
+        #pragma omp taskwait
     }
 };
 
