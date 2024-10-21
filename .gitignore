@@ -17,5 +17,6 @@
 !**/*.hpp
 !**/*.cpp
 !**/*.cc
+!**/*.cxx
 !**/CMakeLists.*
 !**/*.md

@@ -62,6 +62,8 @@ using std::runtime_error;
 #include "../threads/fire.cc"
 #include "../var/var.cpp"
 
+#include "init.cxx"
+
 
 #ifdef NO_MAIN_FOUND
 #error "Error: Your program does not contain a 'main' function!"
