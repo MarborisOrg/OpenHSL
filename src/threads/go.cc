@@ -5,58 +5,54 @@
 #include "../core/cc.hpp"
 // ===========================================================
 
-class FireAndForget
+class GoRoutine
 {
 public:
-    // اجرای تسک با استفاده از OpenMP
     template <typename Func>
-    FireAndForget &operator>>(Func &&func)
+    GoRoutine &operator>>(Func &&func)
     {
-#pragma omp parallel
-#pragma omp single
+        #pragma omp parallel
+        #pragma omp single
         {
-#pragma omp task
+            #pragma omp task
             func();
         }
         return *this;
     }
 
-    // انتظار برای تمام تسک‌ها
     void wait()
     {
-#pragma omp taskwait
+        #pragma omp taskwait
     }
 };
 
-// تست FireAndForget با OpenMP
-void fire_test()
-{
-    FireAndForget fire;
+GoRoutine go; // Parallel tasks on single core, with task waiter
 
-    fire >> []
+// تست GoRoutine با OpenMP
+void go_test()
+{
+    go lam
     {
         std::cout << "Task 1 executed\n";
-    } >> []
+    } lam
     {
         std::cout << "Task 2 executed\n";
-    } >> []
+    } lam
     {
         std::cout << "Immediate Task executed\n";
     };
 
-    // صبر کردن برای اتمام تسک‌ها
     std::cout << "Waiting for all tasks to complete...\n";
-    fire.wait();
+    go.wait();
 
     std::cout << "All tasks completed.\n";
 }
 
-int main()
+void omp_test()
 {
     // تنظیم تعداد رشته‌های OpenMP
     omp_set_dynamic(0);     // Disable dynamic adjustment of the number of threads
     omp_set_num_threads(4); // Set number of threads
 
-    fire_test();
-    return 0;
+    go_test();
 }
