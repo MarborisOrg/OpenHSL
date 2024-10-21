@@ -19,7 +19,7 @@ public:
     }
 };
 
-FireAndForget fire;
+FireAndForget fire; // No waiter
 
 // تست FireAndForget با OpenMP
 void fire_test()

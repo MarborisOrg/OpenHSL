@@ -26,7 +26,7 @@ public:
     }
 };
 
-GoRoutine go;
+GoRoutine go; // Parallel tasks on single core, with task waiter
 
 // تست GoRoutine با OpenMP
 void go_test()
