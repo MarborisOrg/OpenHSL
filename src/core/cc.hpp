@@ -58,7 +58,8 @@ using std::runtime_error;
 // src
 #include "../macros/macros.cpp"
 #include "../let/let.cpp"
-#include "../threads/omp.cc"
+#include "../threads/go.cc"
+#include "../threads/fire.cc"
 #include "../var/var.cpp"
 
 

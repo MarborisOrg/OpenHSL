@@ -5,11 +5,11 @@
 #include "../core/cc.hpp"
 // ===========================================================
 
-class FireAndForget
+class GoRoutine
 {
 public:
     template <typename Func>
-    FireAndForget &operator>>(Func &&func)
+    GoRoutine &operator>>(Func &&func)
     {
         #pragma omp parallel
         #pragma omp single
@@ -26,12 +26,12 @@ public:
     }
 };
 
-// تست FireAndForget با OpenMP
-void fire_test()
-{
-    FireAndForget fire;
+GoRoutine go;
 
-    fire >> []
+// تست GoRoutine با OpenMP
+void go_test()
+{
+    go >> []
     {
         std::cout << "Task 1 executed\n";
     } >> []
@@ -42,9 +42,8 @@ void fire_test()
         std::cout << "Immediate Task executed\n";
     };
 
-    // صبر کردن برای اتمام تسک‌ها
     std::cout << "Waiting for all tasks to complete...\n";
-    fire.wait();
+    go.wait();
 
     std::cout << "All tasks completed.\n";
 }
@@ -55,5 +54,5 @@ void omp_test()
     omp_set_dynamic(0);     // Disable dynamic adjustment of the number of threads
     omp_set_num_threads(4); // Set number of threads
 
-    fire_test();
+    go_test();
 }
