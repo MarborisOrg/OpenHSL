@@ -49,12 +49,11 @@ void fire_test()
     std::cout << "All tasks completed.\n";
 }
 
-int main()
+void omp_test()
 {
     // تنظیم تعداد رشته‌های OpenMP
     omp_set_dynamic(0);     // Disable dynamic adjustment of the number of threads
     omp_set_num_threads(4); // Set number of threads
 
     fire_test();
-    return 0;
 }
