@@ -25,13 +25,13 @@ FireAndForget fire; // No waiter
 void fire_test()
 {
 
-    fire >> []
+    fire lam
     {
         std::cout << "Task 1 executed\n";
-    } >> []
+    } lam
     {
         std::cout << "Task 2 executed\n";
-    } >> []
+    } lam
     {
         std::cout << "Immediate Task executed\n";
     };

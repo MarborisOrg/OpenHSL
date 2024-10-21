@@ -4,8 +4,8 @@
 // ===========================================================
 
 // op class
-#define safe >> // Go and wait (safe mod)
-#define qq >> // for classes: unsafe mod (شیفت راست)
+#define lam >> []()
+#define lama >> [&]()
 
 // function type
 #define fn inline std::any  // inline function for normal use

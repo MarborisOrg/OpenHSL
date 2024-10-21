@@ -31,13 +31,13 @@ GoRoutine go; // Parallel tasks on single core, with task waiter
 // تست GoRoutine با OpenMP
 void go_test()
 {
-    go >> []
+    go lam
     {
         std::cout << "Task 1 executed\n";
-    } >> []
+    } lam
     {
         std::cout << "Task 2 executed\n";
-    } >> []
+    } lam
     {
         std::cout << "Immediate Task executed\n";
     };
