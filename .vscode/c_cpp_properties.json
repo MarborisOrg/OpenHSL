@@ -6,13 +6,10 @@
                 "${workspaceFolder}/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc", // Gcc for OpenMP support
+            "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
-            "cppStandard": "c++23", // Version 17 for any, any_cast support
-            "intelliSenseMode": "linux-gcc-x64",
-            "compilerArgs": [
-                "-fopenmp" // Threads
-            ]
+            "cppStandard": "c++23",
+            "intelliSenseMode": "linux-gcc-x64"
         }
     ],
     "version": 4
