@@ -1,7 +1,7 @@
-// ===========================================================
-#pragma once
-#include "../core/cc.hpp"
-// ===========================================================
+#include <iostream>
+#include <future>
+#include <thread>
+#include <chrono>
 
 class AsyncTaskClass {
 public:
