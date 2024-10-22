@@ -8,7 +8,7 @@
             "defines": [],
             "compilerPath": "/usr/bin/gcc", // Gcc for OpenMP support
             "cStandard": "c11",
-            "cppStandard": "c++17", // Version 17 for any, any_cast support
+            "cppStandard": "c++23", // Version 17 for any, any_cast support
             "intelliSenseMode": "linux-gcc-x64",
             "compilerArgs": [
                 "-fopenmp" // Threads

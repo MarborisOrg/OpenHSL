@@ -13,10 +13,22 @@ public:
     {
         #pragma omp parallel
         #pragma omp single
-        {
-            #pragma omp task
-            func();
-        }
+            {
+                func();
+            }
+        return *this;
+    }
+
+    template <typename Func>
+    // Running tasks on a thread with taskwait
+    GoRoutine &operator<<(Func &&func)
+    {
+        #pragma omp parallel
+        #pragma omp single
+            {
+                #pragma omp task
+                func();
+            }
         return *this;
     }
 
@@ -26,24 +38,21 @@ public:
     }
 };
 
-GoRoutine go; // Parallel tasks on single core, with task waiter
+GoRoutine Go; // Parallel execution of tasks in a chain with OpenMP.
 
 // تست GoRoutine با OpenMP
 void go_test()
 {
-    go lam
-    {
-        std::cout << "Task 1 executed\n";
-    } lam
-    {
-        std::cout << "Task 2 executed\n";
-    } lam
-    {
-        std::cout << "Immediate Task executed\n";
-    };
+    Go << [] { /* کاری انجام دهید */ }
+       << [] { /* کار دیگری انجام دهید */ }
+       << [] { /* یک کار دیگر انجام دهید */ };
 
     std::cout << "Waiting for all tasks to complete...\n";
-    go.wait();
+    Go.wait();
+
+    Go >> [] {
+        // no waiting
+    };
 
     std::cout << "All tasks completed.\n";
 }

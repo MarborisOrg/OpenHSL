@@ -1,11 +1,9 @@
 #include "src/core/cc.hpp"
 
-
-
 fn hi()
 {
 
-    endf;
+    _fn;
 }
 
 int main()

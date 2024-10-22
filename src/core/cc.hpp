@@ -59,7 +59,6 @@ using std::runtime_error;
 #include "../macros/macros.cpp"
 #include "../let/let.cpp"
 #include "../threads/go.cc"
-#include "../threads/fire.cc"
 #include "../var/var.cpp"
 
 #include "init.cxx"
