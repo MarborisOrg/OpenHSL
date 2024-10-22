@@ -35,9 +35,6 @@
 #include <mutex>
 #include <condition_variable>
 
-// omp
-#include <omp.h>
-
 
 using std::any;
 using std::any_cast;
@@ -58,7 +55,7 @@ using std::runtime_error;
 // src
 #include "../macros/macros.cpp"
 #include "../let/let.cpp"
-#include "../threads/go.cc"
+#include "../threads/async.cc"
 #include "../var/var.cpp"
 
 #include "init.cxx"
