@@ -7,11 +7,11 @@ template <typename T>
 class var
 {
 public:
-    std::shared_ptr<T> data;
+    std::unique_ptr<T> data;
 
     var(T value)
     {
-        data = std::make_shared<T>(value);
+        data = std::make_unique<T>(value);
     }
 
     T &operator*()
@@ -30,3 +30,8 @@ public:
         return *this;
     }
 };
+
+void var_test(){
+    var hi = 5;
+    var<int> hi = 5;
+}
