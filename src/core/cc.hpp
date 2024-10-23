@@ -55,7 +55,7 @@ using std::runtime_error;
 // src
 #include "../macros/macros.cpp"
 #include "../let/let.cpp"
-#include "../threads/async.cc"
+#include "../threads/go.cc"
 #include "../var/var.cpp"
 
 #include "init.cxx"
