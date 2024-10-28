@@ -1,6 +1,6 @@
 #include <iostream>
 #include <uv.h>
-#include <chrono>
+#include <thread> // Include this header for std::this_thread
 
 class TaskExecutor {
 public:
@@ -36,31 +36,18 @@ private:
 TaskExecutor executor;
 
 int main() {
-    executor.execute([]() {
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-        std::cout << "Function a is running\n";
-    });
 
-    executor.execute([]() {
-        std::cout << "Function b is running\n";
-        // std::this_thread::sleep_for(std::chrono::seconds(5));
-    });
+    for (size_t i = 0; i < 100000; i++)
+    {
+        executor.execute([]() {
+            executor.execute([]() {
+                executor.execute([]() {});
+            });
+            executor.execute([]() {});
+        });
+    }
 
-    executor.execute([]() {
-        // std::this_thread::sleep_for(std::chrono::seconds(3));
-        std::cout << "Function c is running\n";
-    });
-
-    executor.execute([]() {
-        std::cout << "Function d is running\n";
-    });
-
-    executor.execute([]() {
-        std::cout << "Function e is running\n";
-    });
-
-    // Keep the main thread alive long enough for the tasks to complete
-    // std::this_thread::sleep_for(std::chrono::seconds(10));
+    std::cout << "Function e is running\n";
 
     return 0;
 }
