@@ -3,7 +3,7 @@
 #include <thread>
 #include <vector>
 #include <memory>
-#include <functional> // اضافه کردن هدر
+#include <functional>
 
 class TaskExecutor
 {
