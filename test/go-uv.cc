@@ -19,12 +19,17 @@ public:
         uv_work_t *req = new uv_work_t;
         req->data = new std::function<void()>(std::forward<Func>(func)); // مشخص کردن نوع
 
-        uv_queue_work(loop, req, [](uv_work_t *req)
+        uv_queue_work(loop, req,
+                      [](uv_work_t *req)
                       {
                           auto func = static_cast<std::function<void()>*>(req->data);
                           (*func)();
-                          delete func; }, [](uv_work_t *req, int)
-                      { delete req; });
+                          delete func;
+                      },
+                      [](uv_work_t *req, int)
+                      {
+                          delete req;
+                      });
     }
 
     void cleanup()
@@ -46,16 +51,18 @@ TaskExecutor executor;
 
 int main()
 {
-    const size_t task_count = 100000;
+    const size_t task_count = 1000000;
 
     for (size_t i = 0; i < task_count; i++)
     {
         executor.execute([=]()
-                         { executor.execute([=]() {}); });
-        executor.execute([=]() {});
-        executor.execute([=]()
-                         { executor.execute([=]()
-                                            { executor.execute([=]() {}); }); });
+                         {
+            // انجام کارها
+            });
+            executor.execute([=]()
+                         {
+            // انجام کارها
+            });
     }
 
     std::cout << "All tasks submitted\n";
