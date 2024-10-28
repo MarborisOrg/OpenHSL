@@ -1,6 +1,9 @@
 #include <iostream>
 #include <uv.h>
 #include <thread>
+#include <vector>
+#include <memory>
+#include <functional> // اضافه کردن هدر
 
 class TaskExecutor
 {
@@ -14,17 +17,14 @@ public:
     void execute(Func &&func)
     {
         uv_work_t *req = new uv_work_t;
-        req->data = new Func(std::forward<Func>(func));
+        req->data = new std::function<void()>(std::forward<Func>(func)); // مشخص کردن نوع
 
         uv_queue_work(loop, req, [](uv_work_t *req)
                       {
-           
-            auto func = static_cast<Func*>(req->data);
-            (*func)();
-            delete func; }, [](uv_work_t *req, int)
+                          auto func = static_cast<std::function<void()>*>(req->data);
+                          (*func)();
+                          delete func; }, [](uv_work_t *req, int)
                       { delete req; });
-
-        uv_run(loop, UV_RUN_NOWAIT);
     }
 
     void cleanup()
@@ -35,7 +35,6 @@ public:
 
     ~TaskExecutor()
     {
-
         cleanup();
     }
 
@@ -52,17 +51,16 @@ int main()
     for (size_t i = 0; i < task_count; i++)
     {
         executor.execute([=]()
-                         {
-            executor.execute([=]() {
-               
-            });
-            executor.execute([=]() {
-               
-            });
-            });
+                         { executor.execute([=]() {}); });
+        executor.execute([=]() {});
+        executor.execute([=]()
+                         { executor.execute([=]()
+                                            { executor.execute([=]() {}); }); });
     }
 
-    std::cout << "All tasks submitted.\n";
+    std::cout << "All tasks submitted\n";
+
+    executor.cleanup(); // اطمینان حاصل کنید که cleanup بعد از ارسال همه تسک‌ها انجام شود
 
     return 0;
 }
