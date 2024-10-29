@@ -3,24 +3,50 @@
 #include <functional>
 #include <iostream>
 
-tf::Executor executor;
-
-void task_function() {
-    // کارهایی که باید انجام شود
-}
-
-int main() {
-    for (size_t i = 0; i < 30000000; /* 30 million nested task */ i++) {
-        // استفاده از shared_ptr به جای unique_ptr
+class TaskGnrt
+{
+public:
+    template <typename Func>
+    TaskGnrt &operator<<(Func &&func)
+    {
         auto task = std::make_shared<std::function<void()>>([=]() {
-            task_function();
+            func();
         });
 
         executor.silent_async([task]() mutable {
             (*task)();
         });
+        return *this;
     }
 
-    executor.wait_for_all();
+    void wait() {
+        executor.wait_for_all();
+    }
+
+    private:
+        tf::Executor executor;
+};
+
+TaskGnrt go;
+
+void task_function() {
+}
+
+int main() {
+    for (size_t i = 0; i < 30000000; i++) {
+        go << [=](){
+            go << [=](){
+            go << [=](){
+            go << [=](){
+            go << [=](){
+            
+        };
+        };
+        };
+        };
+        };
+    }
+
+    go.wait();
     return 0;
 }
