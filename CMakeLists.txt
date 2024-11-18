@@ -1,29 +1,32 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
-project(Test)
+project(Test LANGUAGES CXX C)
 
-# C++23
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# چاپ مسیر فعلی
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+
+set(CMAKE_BUILD_TYPE Release)
+
 message(STATUS "Current source directory: ${CMAKE_CURRENT_SOURCE_DIR}")
 
-# مسیر فایل .properties را مشخص کنید
 set(PROPERTIES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/.properties")
 
-# بررسی وجود فایل
 if(EXISTS ${PROPERTIES_FILE})
     message(STATUS "Found properties file: ${PROPERTIES_FILE}")
 else()
     message(FATAL_ERROR "Properties file not found: ${PROPERTIES_FILE}")
 endif()
 
-# تابع برای خواندن فایل .properties
 function(read_properties_file filename)
     file(READ ${filename} properties_content)
     string(REPLACE "\n" ";" properties_list ${properties_content})
     foreach(property ${properties_list})
-        string(STRIP ${property} stripped_property)  # حذف فضاهای خالی
+        string(STRIP ${property} stripped_property)  
         if(stripped_property MATCHES "^(.*)=(.*)$")
             set(var_name ${CMAKE_MATCH_1})
             set(var_value ${CMAKE_MATCH_2})
@@ -32,10 +35,8 @@ function(read_properties_file filename)
     endforeach()
 endfunction()
 
-# خواندن فایل و تنظیم متغیرها
 read_properties_file(${PROPERTIES_FILE})
 
-# حالا می‌توانید از VCPKG_ROOT استفاده کنید
 if(DEFINED VCPKG_ROOT)
     include(${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 else()
@@ -44,8 +45,19 @@ endif()
 
 add_executable(main main.cc)
 
+# Find and link libraries
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(main PRIVATE fmt::fmt)
 
 find_package(Taskflow CONFIG REQUIRED)
 target_link_libraries(main PRIVATE Taskflow::Taskflow)
+
+# Optional: Add include directories if needed
+# target_include_directories(main PRIVATE ${YOUR_INCLUDE_DIRS})
+
+if(MSVC)
+    target_compile_options(main PRIVATE /O2 /arch:AVX2)
+else()
+    target_compile_options(main PRIVATE -O3 -march=native)
+    target_compile_options(main PRIVATE -flto)
+endif()
