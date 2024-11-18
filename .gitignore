@@ -10,7 +10,8 @@
 **/build
 **/CMake*
 
-!.properties
+!default.properties
+.properties
 
 # Don't ignore JSON files in all directories
 !**/*.json

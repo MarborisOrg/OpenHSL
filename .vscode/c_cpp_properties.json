@@ -1,16 +1,14 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "MRB",
             "includePath": [
                 "${workspaceFolder}/**"
             ],
             "defines": [],
             "compilerArgs": [],
-            "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",
-            "cppStandard": "c++23",
-            "intelliSenseMode": "linux-gcc-x64"
+            "cppStandard": "c++23"
         }
     ],
     "version": 4
