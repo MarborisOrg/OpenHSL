@@ -23,3 +23,5 @@
 !**/*.cxx
 !**/CMakeLists.*
 !**/*.md
+
+vcpkg_installed/
